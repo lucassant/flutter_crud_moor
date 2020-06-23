@@ -10,8 +10,10 @@ class CategoriaDao extends DatabaseAccessor<MyDatabase>
 
   Stream<List<Categoria>> get allCategorias => select(categorias).watch();
 
-  /*Future<int> addCategoria(CategoriasCompanion entry) =>
-      into(db.categorias).insert(entry);*/
+  Stream<Categoria> categoriaById(int id) {
+    return (select(categorias)..where((tbl) => tbl.id.equals(id)))
+        .watchSingle();
+  }
 
   Future addCategoria(Categoria ent) => into(categorias).insert(ent);
 

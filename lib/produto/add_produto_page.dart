@@ -41,7 +41,9 @@ class _AddProdutoPageState extends State<AddProdutoPage> {
         _price.text = produto.price.toString();
         dropdownValue = produto.idCategoria;
 
-        _alteracao = true;
+        setState(() {
+          _alteracao = true;
+        });
       }
     });
 
@@ -50,8 +52,47 @@ class _AddProdutoPageState extends State<AddProdutoPage> {
 
   @override
   Widget build(BuildContext context) {
+    void _showDialog() {
+      Widget cancelButton = FlatButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          child: Text('Cancelar'));
+      Widget confirmButton = FlatButton(
+          onPressed: () {
+            Navigator.pop(context);
+            db.produtoDao.deleteProduto(produto);
+            Navigator.pop(context);
+          },
+          child: Text('Apagar'));
+
+      AlertDialog alert = AlertDialog(
+        title: Text('Atenção'),
+        content: Text('Você realmente deseja apagar esse produto?'),
+        actions: <Widget>[cancelButton, confirmButton],
+      );
+
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return alert;
+          });
+    }
+
     return Scaffold(
-      appBar: AppBar(title: Text('Adicionar produto')),
+      appBar: AppBar(
+        title: Text('Adicionar produto'),
+        actions: <Widget>[
+          _alteracao
+              ? IconButton(
+                  icon: Icon(Icons.delete),
+                  onPressed: () {
+                    _showDialog();
+                  },
+                )
+              : Container()
+        ],
+      ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Form(

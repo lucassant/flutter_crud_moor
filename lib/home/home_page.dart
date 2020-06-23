@@ -27,7 +27,7 @@ class _HomePageState extends State<HomePage> {
         centerTitle: true,
         actions: <Widget>[
           IconButton(
-              icon: Icon(Icons.add),
+              icon: Icon(Icons.category),
               onPressed: () {
                 Navigator.push(context, MaterialPageRoute(
                   builder: (context) {
