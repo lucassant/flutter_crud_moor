@@ -3,6 +3,7 @@ import 'package:flutter_crud/categoria/categoria_page.dart';
 import 'package:flutter_crud/db/my_database.dart';
 import 'package:flutter_crud/models/produto_categoria.dart';
 import 'package:flutter_crud/produto/add_produto_page.dart';
+import 'package:get_it/get_it.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -10,6 +11,14 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  MyDatabase db;
+
+  @override
+  void initState() {
+    db = GetIt.instance<MyDatabase>();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,7 +50,7 @@ class _HomePageState extends State<HomePage> {
         child: Icon(Icons.add),
       ),
       body: StreamBuilder(
-          stream: MyDatabase.instance.produtoDao.allProdutosWithCategoria(),
+          stream: db.produtoDao.allProdutosWithCategoria(),
           builder: (context, snapshot) {
             if (!snapshot.hasData)
               return Center(
@@ -54,7 +63,16 @@ class _HomePageState extends State<HomePage> {
                 itemCount: snapshot.data.length,
                 itemBuilder: (context, index) {
                   return ListTile(
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return AddProdutoPage(
+                          idProduto: produtos[index].produto.id,
+                        );
+                      }));
+                    },
                     leading: CircleAvatar(
+                      backgroundColor: Colors.teal,
                       child: Text(produtos[index].produto.id.toString()),
                     ),
                     title: Text(produtos[index].produto.title),

@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_crud/db/my_database.dart';
 import 'package:flutter_crud/home/home_page.dart';
+import 'package:get_it/get_it.dart';
 
 void main() {
+  GetIt getIt = GetIt.instance;
+  getIt.registerSingleton<MyDatabase>(MyDatabase());
   return runApp(MyApp());
 }
 

@@ -27,4 +27,8 @@ class ProdutoDao extends DatabaseAccessor<MyDatabase> with _$ProdutoDaoMixin {
   Future updateProduto(Produto ent) => update(produtos).replace(ent);
 
   Future deleteProduto(Produto ent) => delete(produtos).delete(ent);
+
+  Stream<Produto> getProduto(int id) {
+    return (select(produtos)..where((t) => t.id.equals(id))).watchSingle();
+  }
 }

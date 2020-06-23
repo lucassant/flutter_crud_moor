@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_crud/db/my_database.dart';
+import 'package:get_it/get_it.dart';
 
 class CategoriaPage extends StatefulWidget {
   @override
@@ -7,6 +8,14 @@ class CategoriaPage extends StatefulWidget {
 }
 
 class _CategoriaPageState extends State<CategoriaPage> {
+  MyDatabase db;
+
+  @override
+  void initState() {
+    db = GetIt.instance<MyDatabase>();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,7 +37,7 @@ class _CategoriaPageState extends State<CategoriaPage> {
         ],
       ),
       body: StreamBuilder(
-          stream: MyDatabase.instance.categoriaDao.allCategorias,
+          stream: db.categoriaDao.allCategorias,
           builder: (context, snapshot) {
             if (!snapshot.hasData)
               return Center(
@@ -59,6 +68,13 @@ class AddCategoria extends StatefulWidget {
 
 class _AddCategoriaState extends State<AddCategoria> {
   String categoriaName = '';
+  MyDatabase db;
+
+  @override
+  void initState() {
+    db = GetIt.instance<MyDatabase>();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -79,8 +95,7 @@ class _AddCategoriaState extends State<AddCategoria> {
             onPressed: () {
               /*MyDatabase.instance.categoriaDao.addCategoria(
                   CategoriasCompanion(name: Value(categoriaName)));*/
-              MyDatabase.instance.categoriaDao
-                  .addCategoria(Categoria(name: categoriaName));
+              db.categoriaDao.addCategoria(Categoria(name: categoriaName));
               Navigator.pop(context);
             },
           )

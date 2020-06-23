@@ -20,17 +20,11 @@ class Categorias extends Table {
 
 @UseMoor(tables: [Produtos, Categorias], daos: [ProdutoDao, CategoriaDao])
 class MyDatabase extends _$MyDatabase {
-  static MyDatabase instance = MyDatabase._internal();
+  //static MyDatabase instance = MyDatabase._internal();
 
-  ProdutoDao produtoDao;
-  CategoriaDao categoriaDao;
-
-  MyDatabase._internal()
+  MyDatabase()
       : super(FlutterQueryExecutor.inDatabaseFolder(
-            path: 'db.sqlite', logStatements: true)) {
-    produtoDao = ProdutoDao(this);
-    categoriaDao = CategoriaDao(this);
-  }
+            path: 'db.sqlite', logStatements: true));
 
   @override
   int get schemaVersion => 1;
